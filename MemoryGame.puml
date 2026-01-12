@@ -1,0 +1,75 @@
+@startuml
+' Layout direction
+left to right direction
+
+package "Model (Data & Logic)" {
+    class GameException {
+        + message : str
+    }
+
+    class Card {
+        - word : str
+        - is_face_up : bool
+        - is_matched : bool
+        - mask : str
+        + __init__(word, max_length)
+        + get_display_text() : str
+    }
+
+    class Board {
+        - rows : int
+        - cols : int
+        - cards : List<Card>
+        + __init__(words : List<str>)
+        + get_card(index : int) : Card
+        + is_game_over() : bool
+        - _calculate_dimensions()
+    }
+
+    class HighScoreManager {
+        - filename : str
+        + save_score(name, attempts, matrix_size)
+        + load_scores() : List<Dict>
+        + get_rank(attempts, matrix_size) : int
+    }
+}
+
+package "Controller (Coordinator)" {
+    class GameController {
+        - board : Board
+        - view : MainWindow
+        - hs_manager : HighScoreManager
+        - attempts : int
+        - first_selection : int
+        - lock_board : bool
+        + __init__(root, word_list)
+        + on_card_click(index)
+        - check_match(card1, card2)
+        - reset_turn()
+        - handle_win()
+    }
+}
+
+package "View (User Interface)" {
+    class MainWindow {
+        - root : Tk
+        - buttons : List<Button>
+        - lbl_attempts : Label
+        + setup_ui()
+        + update_card_view(index, text, color, state)
+        + update_attempts(count)
+        + show_message(title, message)
+        + ask_user_input(prompt) : str
+        + bind_click_event(callback)
+    }
+}
+
+' Relationships (with better direction)
+GameException -- Board : throws
+Board -- Card : contains
+GameController --> Board : manipulates
+GameController --> HighScoreManager : uses
+GameController --> MainWindow : updates
+MainWindow --> GameController : notifies (events)
+
+@enduml
