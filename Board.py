@@ -1,5 +1,5 @@
 from Card import Card
-from typing import int, List, str, bool
+from typing import List
 import random 
 
 class Board:
@@ -23,18 +23,21 @@ class Board:
         return True
     
     def getCard(self, row: int, col: int) -> Card:
-        for i in range(row):
-            for j in range(col):
-                if Card.atRow == j and Card.atCol == i:
-                    return Card
+        for card in self.cards:
+            if card.atRow == row and card.atCol == col:
+                return card
+        return None
     
     def placeCards(self) -> None:
         random.shuffle(self.cards)
+        idx = 0
         for i in range(self.rows):
             for j in range(self.columns):
-                for card in self.cards:
-                    card.atCol = i
+                if idx < len(self.cards):
+                    card = self.cards[idx]
+                    card.atRow = i
                     card.atCol = j
+                    idx += 1
 
 
     

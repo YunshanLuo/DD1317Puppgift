@@ -1,4 +1,3 @@
-from typing import str, bool, int
 
 class Card:
     """
