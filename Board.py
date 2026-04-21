@@ -3,6 +3,12 @@ from typing import List
 import random 
 
 class Board:
+    """
+    Attributes:
+        rows (int): The total number of rows
+        columns (int): The total number of columns
+        cards (List[Card]): List of Card objects to put on the board
+    """
     rows: int
     columns: int
     cards: List[Card]
@@ -10,11 +16,6 @@ class Board:
     def __init__(self, rows: int, columns: int, cards: List[Card]) -> None:
         """
         Initailizes the board with row, col and a set of cards
-        
-        Args:
-            rows (int): The total number of rows
-            columns (int): The total number of columns
-            cards (List[Card]): List of Card objects to put on the board
         """
         self.rows = rows
         self.columns = columns
