@@ -27,9 +27,8 @@ class Card:
         self.atRow = atRow
         self.atCol = atCol
 
-    def getText(self) -> str:
+    def __str__(self):
         """
-        Returns the word on the card
+        Returns the word stored on the card
         """
         return self.word
-    

@@ -61,6 +61,25 @@ class Board:
                     card.atRow = i
                     card.atCol = j
                     idx += 1
+    
+    def checkMatch(self, card1: Card, card2: Card) -> bool:
+        """
+        Check if two cards are matching by seeing if they have the same text
+
+        Args:
+            card1 (Card): The first comparable card
+            card2 (Card): The second comparable card
+        
+        Returns:
+            bool: True if the cards match, False otherwise
+        """
+        if str(card1) == str(card2):
+            card1.isMatched = True
+            card1.isMatched = True
+            return True
+        return False
+    
+            
 
 
     
