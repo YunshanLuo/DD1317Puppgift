@@ -10,7 +10,7 @@ class HighScoreManager:
 
     def __init__(self, dbPath: str = "Highscores.pkl",):
         self.dbPath = dbPath
-        self.data = {"easy:": [], "medium": [], "hard": []}
+        self.data = {"easy": [], "medium": [], "hard": []}
 
     def saveScore(self):
         with open(self.dbPath, "wb") as f:
@@ -27,7 +27,7 @@ class HighScoreManager:
         self.saveScore()
     
     def getRank(self, mode, score):
-        self.load()
+        self.loadScore()
         return self.data[mode].index(score) + 1
 
 

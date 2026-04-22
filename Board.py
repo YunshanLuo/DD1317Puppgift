@@ -13,13 +13,13 @@ class Board:
     columns: int
     cards: List[Card]
 
-    def __init__(self, rows: int, columns: int, cards: List[Card]) -> None:
+    def __init__(self, rows: int, columns: int, cards: List[Card] = None) -> None:
         """
         Initailizes the board with row, col and a set of cards
         """
         self.rows = rows
         self.columns = columns
-        self.cards = cards
+        self.cards = cards if cards is not None else []
         
 
     def isGameOver(self) -> bool:
@@ -75,12 +75,12 @@ class Board:
         """
         if str(card1) == str(card2):
             card1.isMatched = True
-            card1.isMatched = True
+            card2.isMatched = True
             return True
         return False
     
-    def loadWords(self, filePath: str = "/ordlista.txt"):
-        numWords = (self.rows * self.columns) / 2
+    def loadWords(self, filePath: str = "ordlista.txt"):
+        numWords = int((self.rows * self.columns) / 2)
         with open(filePath) as f:
             words = [line.strip() for line in f]
         

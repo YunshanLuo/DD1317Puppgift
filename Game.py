@@ -1,6 +1,6 @@
 import tkinter as tk
-import HighScoreManager
-import Board
+from HighScoreManager import HighScoreManager
+from Board import Board
 from tkinter import messagebox
 
 class Game(HighScoreManager):
@@ -15,22 +15,23 @@ class Game(HighScoreManager):
         self.firstCard = None
         self.firstButton = None
         self.isWaiting = False
+        self.currScore = 0
 
         self.setUp()
 
     def setUp(self):
         self.root.title("Memory Game")
         self.board.placeCards()
-        self.loadscore()
+        self.loadScore()
 
         for row in range(self.board.rows):
             buttonRow = []
             for col in range(self.board.columns):
                 button = tk.Button(self.root,
                                    text="",
-                                   width=4,
-                                   height=4,
-                                   command=lambda: self.onClick(row, col))
+                                   width=5,
+                                   height=5,
+                                   command=lambda r = row, c = col: self.onClick(r, c))
                 button.grid(row = row, column = col, padx = 3, pady= 3)
                 buttonRow.append(button)
             self.buttons.append(buttonRow)
@@ -42,7 +43,7 @@ class Game(HighScoreManager):
         clickedCard = self.board.getCard(row, col)
         clickedButton = self.buttons[row][col]
 
-        if clickedCard.isMatched or clickedCard == self.firsCard:
+        if clickedCard.isMatched or clickedCard == self.firstCard:
             return
         
         clickedButton.config(text = str(clickedCard))
@@ -63,7 +64,7 @@ class Game(HighScoreManager):
             else:
             # Not matched
                 self.isWaiting = True
-                self.root.after(2000, lambda: self.hideCards(self.firstButton, clickedButton))
+                self.root.after(500, lambda b1=self.firstButton, b2=clickedButton: self.hideCards(b1, b2))
                 self.firstCard = None
                 self.firstButton = None
     
@@ -78,5 +79,5 @@ class Game(HighScoreManager):
             self.addScore(self.mode, self.currScore)
             rank = self.getRank(self.mode, self.currScore)
 
-            messagebox.showinfo(f"Du vann med {self.currScore} drag och den rank är #{rank}")
+            messagebox.showinfo("Grattis!", f"Du vann med {self.currScore} drag och din rank är #{rank}")
             self.root.destroy()

@@ -1,6 +1,6 @@
 import tkinter as tk
-import Board
-import Game
+from Board import Board
+from Game import Game
 
 def main():
     diff = {
@@ -10,8 +10,8 @@ def main():
     }
 
     while True:
-        userInput = input("select Difficulty")
-        if userInput.lower().strip() in diff.keys():
+        userInput = input("Select difficulty (easy, medium, hard): ").lower().strip()
+        if userInput in diff:
             break
     
     rows, cols = diff[userInput]
@@ -22,7 +22,7 @@ def main():
     app = Game(board, dbPath="Highscores.pkl", mode=userInput)
     app.root.mainloop()
 
-if __name__ == "__name__":
+if __name__ == "__main__":
     main()
     
 
