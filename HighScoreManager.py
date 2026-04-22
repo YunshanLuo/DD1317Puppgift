@@ -1,11 +1,10 @@
-import sqlite3
 from typing import List
 from pathlib import Path
 import pickle
 
 class HighScoreManager:
     """
-    Store persistant scores using SQLite
+    Store persistent scores using Pickle
     """
 
     def __init__(self, dbPath: str = "Highscores.pkl",):
