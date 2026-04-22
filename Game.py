@@ -1,12 +1,15 @@
 import tkinter as tk
 import HighScoreManager
 import Board
+from tkinter import messagebox
 
-class Game:
-    def __init__(self, board: Board, manager: HighScoreManager):
+class Game(HighScoreManager):
+    def __init__(self, board: Board, mode:str, dbPath = "Highscores.pkl"):
+        super().__init__(dbPath)
+        
         self.root = tk.Tk()
         self.board = board
-        self.manager = manager
+        self.mode = mode
 
         self.buttons = []
         self.firstCard = None
@@ -18,7 +21,7 @@ class Game:
     def setUp(self):
         self.root.title("Memory Game")
         self.board.placeCards()
-        self.manager.loadScores()
+        self.loadscore()
 
         for row in range(self.board.rows):
             buttonRow = []
@@ -48,7 +51,7 @@ class Game:
             self.firstCard = clickedCard
             self.firstButton = clickedButton
         else:
-            self.manager.currScore += 1
+            self.currScore += 1
             # Matched
             if self.board.checkMatch(self.firstCard, clickedCard):
                 self.firstButton.config(state="disabled")
@@ -68,4 +71,12 @@ class Game:
         button1.config(text="")
         button2.config(text="")
         self.isWaiting = False
-        
+    
+
+    def checkWin(self):
+        if self.board.isGameOver():
+            self.addScore(self.mode, self.currScore)
+            rank = self.getRank(self.mode, self.currScore)
+
+            messagebox.showinfo(f"Du vann med {self.currScore} drag och den rank är #{rank}")
+            self.root.destroy()

@@ -59,8 +59,7 @@ class Board:
             for j in range(self.columns):
                 if idx < len(self.cards):
                     card = self.cards[idx]
-                    card.atRow = i
-                    card.atCol = j
+                    card.atRow, card.atCol = i, j
                     idx += 1
     
     def checkMatch(self, card1: Card, card2: Card) -> bool:
@@ -80,7 +79,19 @@ class Board:
             return True
         return False
     
-            
+    def loadWords(self, filePath: str = "/ordlista.txt"):
+        numWords = (self.rows * self.columns) / 2
+        with open(filePath) as f:
+            words = [line.strip() for line in f]
+        
+        selectedWord = random.sample(words, numWords)
+
+        for word in selectedWord:
+            self.cards.append(Card(word=word))
+            self.cards.append(Card(word=word))
+
+
+
 
 
     

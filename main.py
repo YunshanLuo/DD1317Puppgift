@@ -1,23 +1,29 @@
 import tkinter as tk
-import argparse
-from Gui import MemoryGameGUI
-
+import Board
+import Game
 
 def main():
-    parser = argparse.ArgumentParser(description="Launch Memory Game GUI")
-    parser.add_argument("--rows", type=int, default=4, help="Number of rows (even total required)")
-    parser.add_argument("--cols", type=int, default=4, help="Number of columns (even total required)")
-    args = parser.parse_args()
+    diff = {
+        "easy": (2,2),
+        "medium": (4,3),
+        "hard":(4,4)
+    }
 
-    total = args.rows * args.cols
-    if total % 2 != 0:
-        raise SystemExit("Rows * Cols must be even (pairs needed)")
+    while True:
+        userInput = input("select Difficulty")
+        if userInput.lower().strip() in diff.keys():
+            break
+    
+    rows, cols = diff[userInput]
 
-    root = tk.Tk()
-    root.title("Memory Game")
-    app = MemoryGameGUI(root, rows=args.rows, cols=args.cols)
-    root.mainloop()
+    board = Board(rows, cols)
+    board.loadWords("ordlista.txt")
 
+    app = Game(board, dbPath="Highscores.pkl", mode=userInput)
+    app.root.mainloop()
 
-if __name__ == '__main__':
+if __name__ == "__name__":
     main()
+    
+
+    
