@@ -10,9 +10,11 @@ def main():
     }
 
     while True:
-        userInput = input("Select difficulty (easy, medium, hard): ").lower().strip()
+        userInput = input("Select difficulty (easy, medium, hard): \n").lower().strip()
         if userInput in diff:
             break
+        else:
+            print("Vänligen skriv (easy, medium eller hard)\n")
     
     rows, cols = diff[userInput]
 
