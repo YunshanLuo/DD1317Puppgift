@@ -14,7 +14,7 @@ def main():
         if userInput in diff:
             break
         else:
-            print("Vänligen skriv (easy, medium eller hard)\n")
+            print("Please choose (easy, medium eller hard)\n")
     
     rows, cols = diff[userInput]
 

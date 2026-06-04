@@ -4,7 +4,15 @@ from Board import Board
 from tkinter import messagebox
 
 class Game(HighScoreManager):
+    """
+    The game class containing all necessary methods to make the game run
+    """
+    
     def __init__(self, board: Board, mode:str, dbPath = "Highscores.pkl"):
+        """
+        Inherits highscore manager in order to save directly into database
+        Initializes class variables and calls setup
+        """
         super().__init__(dbPath)
         
         self.root = tk.Tk()
@@ -20,6 +28,10 @@ class Game(HighScoreManager):
         self.setUp()
 
     def setUp(self):
+        """
+        Places cards and loads score, uses a nested for loop to initialize buttons
+        Button are stored in self.button and mapped with onclick lambda
+        """
         self.root.title("Memory Game")
         self.board.placeCards()
         self.loadScore()
@@ -37,17 +49,27 @@ class Game(HighScoreManager):
             self.buttons.append(buttonRow)
 
     def onClick(self, row, col):
+        """
+        Args (int):
+            row: The clicked button row
+            col: The clicked button column
+
+        """
+        # Handle spamming buttons
         if self.isWaiting:
             return
         
         clickedCard = self.board.getCard(row, col)
         clickedButton = self.buttons[row][col]
 
+        # Nothing happens if you click already matched card or the same card again
         if clickedCard.isMatched or clickedCard == self.firstCard:
             return
         
+        # Display card word
         clickedButton.config(text = str(clickedCard))
-        
+
+        # If first time clicking set firstCard = None        
         if self.firstCard is None:
             self.firstCard = clickedCard
             self.firstButton = clickedButton
@@ -63,7 +85,7 @@ class Game(HighScoreManager):
                 self.checkWin()
             else:
             # Not matched
-                self.isWaiting = True
+                self.isWaiting = True  # Set isWaiting to true to disallow spamming
                 self.root.after(500, lambda b1=self.firstButton, b2=clickedButton: self.hideCards(b1, b2))
                 self.firstCard = None
                 self.firstButton = None
@@ -75,7 +97,9 @@ class Game(HighScoreManager):
     
 
     def checkWin(self):
+        # If all cards isMatched
         if self.board.isGameOver():
+            # All parent method
             self.addScore(self.mode, self.currScore)
             rank = self.getRank(self.mode, self.currScore)
 

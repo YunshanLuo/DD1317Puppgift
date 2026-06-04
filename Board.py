@@ -80,6 +80,13 @@ class Board:
         return False
     
     def loadWords(self, filePath: str = "ordlista.txt"):
+        """
+        Args:
+            filePath (str): Path where the wordlist is located
+
+        Returns void:
+        """
+
         numWords = int((self.rows * self.columns) / 2)
         with open(filePath) as f:
             words = [line.strip() for line in f]
